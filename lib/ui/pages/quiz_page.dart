@@ -4,6 +4,7 @@ import 'package:opentrivia/models/question.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:opentrivia/ui/pages/quiz_finished.dart';
 import 'package:html_unescape/html_unescape.dart';
+import 'package:opentrivia/ui/pages/result.dart';
 
 class QuizPage extends StatefulWidget {
   final List<Question> questions;
@@ -140,20 +141,24 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            ...options.map((option) => RadioListTile(
+                            ...options.map((option) {
+                              return RadioListTile(
+                                title: Text(HtmlUnescape().convert("$option"),
+                                  style: MediaQuery.of(context).size.width > 800
+                                      ? TextStyle(
+                                      fontSize: 30.0
+                                  ) : null,),
+                                groupValue: _answers[_currentIndex],
+                                value: option,
 
-                              title: Text(HtmlUnescape().convert("$option"),style: MediaQuery.of(context).size.width > 800
-                                  ? TextStyle(
-                                  fontSize: 30.0
-                              ) : null,),
-                              groupValue: _answers[_currentIndex],
-                              value: option,
-                              onChanged: (value) {
-                                setState(() {
-                                  _answers[_currentIndex] = option;
-                                });
-                              },
-                            )),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _answers[_currentIndex] = option;
+                                  },);
+                                },
+                              );
+                            }
+                            ),
                           ],
                         ),
                       ),
@@ -206,9 +211,19 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
         animationController.forward();
       });
     } else {
+      /*
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (_) => QuizFinishedPage(
-              questions: widget.questions, answers: _answers)));
+              questions: widget.questions, answers: _answers)));*/
+
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => //Result()
+          QuizFinishedPage(
+            questions: widget.questions, answers: _answers)
+        ),
+      );
     }
   }
 
@@ -238,3 +253,5 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
         });
   }
 }
+
+
