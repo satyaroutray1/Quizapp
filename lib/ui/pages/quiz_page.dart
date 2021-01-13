@@ -4,7 +4,6 @@ import 'package:opentrivia/models/question.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:opentrivia/ui/pages/quiz_finished.dart';
 import 'package:html_unescape/html_unescape.dart';
-import 'package:opentrivia/ui/pages/result.dart';
 
 class QuizPage extends StatefulWidget {
   final List<Question> questions;
