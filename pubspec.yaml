@@ -16,7 +16,8 @@ dependencies:
   html_unescape: ^1.0.2
   auto_size_text: ^2.1.0
   lottie: ^0.7.0+1
-
+  circular_countdown_timer: ^0.0.9
+  fluttertoast: ^7.1.6
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,4 +1,6 @@
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:opentrivia/models/category.dart';
 import 'package:opentrivia/models/question.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -20,9 +22,55 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
   Animation animation;
   AnimationController animationController, animationController1;
 
+  FToast fToast;
+
+
+  _showToast(String message) {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: Colors.greenAccent,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          //Icon(Icons.check),
+          SizedBox(
+            width: 12.0,
+          ),
+          Text(message),
+        ],
+      ),
+    );
+
+
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: Duration(seconds: 2),
+    );
+
+    // Custom Toast Position
+    /*
+    fToast.showToast(
+        child: toast,
+        toastDuration: Duration(seconds: 2),
+        positionedToastBuilder: (context, child) {
+          return Positioned(
+            child: child,
+            top: 16.0,
+            left: 16.0,
+          );
+        });*/
+  }
+
+
   @override
   void initState() {
     // TODO: implement initState
+    fToast = FToast();
+    fToast.init(context);
     super.initState();
 
     animationController = AnimationController(vsync: this,
@@ -82,42 +130,65 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      /*Row(
-                      children: <Widget>[
-                        CircleAvatar(
-                          backgroundColor: Colors.white70,
-                          child: Text("${_currentIndex + 1}"),
-                        ),
-                        SizedBox(width: 16.0),
-                        Expanded(
-                          child: Text(
-                            HtmlUnescape().convert(
-                                widget.questions[_currentIndex].question),
-                            softWrap: true,
-                            style: MediaQuery.of(context).size.width > 800
-                                ? _questionStyle.copyWith(fontSize: 30.0)
-                                : _questionStyle,
-                          ),
-                        ),
-                      ],
-                    ),*/
-                      Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text("Question " , style: TextStyle(
-                                  fontSize: 18
-                              ),),
 
-                              Text(animation.value.toString(), style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold
-                              ),),
-                              Text("/10 ", style: TextStyle(
-                                  fontSize: 18
-                              ),),
-                            ],
-                          )
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text("Question " , style: TextStyle(
+                                      fontSize: 18
+                                  ),),
+
+                                  Text(animation.value.toString(), style: TextStyle(
+                                      fontSize: 20, fontWeight: FontWeight.bold
+                                  ),),
+                                  Text("/10 ", style: TextStyle(
+                                      fontSize: 18
+                                  ),),
+                                ],
+                              )
+                          ),
+
+                          CircularCountDownTimer(
+                            duration: 10,
+                            controller: CountDownController(),
+                            width: MediaQuery.of(context).size.width / 10,
+                            height: MediaQuery.of(context).size.width / 10,
+                            color: Colors.grey[300],
+                            fillColor: Colors.black,
+                            backgroundColor: Colors.black12,
+                            strokeWidth: 5.0,
+                            strokeCap: StrokeCap.round,
+                            textStyle: TextStyle(
+                                fontSize: 13.0, color: Colors.white, fontWeight: FontWeight.bold),
+                            textFormat: CountdownTextFormat.SS,
+                            isReverse: true,
+                            isReverseAnimation: true,
+                            isTimerTextShown: true,
+                            autoStart: true,
+                            onStart: () {
+                              print('Countdown Started');
+                              },
+                            onComplete: () {
+                              print('Countdown Ended');
+
+                              _showToast("Times Up!");
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => //Result()
+                                QuizFinishedPage(
+                                    questions: widget.questions, answers: _answers)
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 10,
@@ -192,9 +263,11 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
   void _nextSubmit() {
     if (_answers[_currentIndex] == null) {
-      _key.currentState.showSnackBar(SnackBar(
+      /*_key.currentState.showSnackBar(SnackBar(
         content: Text("You must select an answer to continue."),
-      ));
+      )
+      );*/
+      _showToast("You must select an answer to continue.");
       return;
     }
     if (_currentIndex < (widget.questions.length - 1)) {
@@ -210,10 +283,6 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
         animationController.forward();
       });
     } else {
-      /*
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => QuizFinishedPage(
-              questions: widget.questions, answers: _answers)));*/
 
 
       Navigator.push(
