@@ -143,21 +143,28 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
               )),
           onTap: (){
             setState(() {
-              print("${options[index]}");
+              if(animation.value < 10) {
+                print("a ${animation.value.toString()}");
+                print("${options[index]}");
 
-              _answers[_currentIndex] = options[index];
+                _answers[ _currentIndex] = options[index];
 
-              animationController.reset();
-              _currentIndex++;
+                animationController.reset();
+                _currentIndex++;
 
-              animation = IntTween(begin: _currentIndex, end: _currentIndex + 1)
-                  .animate(
-                  CurvedAnimation(
-                      parent: animationController, curve: Curves.ease)
-              );
+                animation =
+                    IntTween(begin: _currentIndex, end: _currentIndex + 1)
+                        .animate(
+                        CurvedAnimation(
+                            parent: animationController, curve: Curves.ease)
+                    );
 
-              animationController.forward();
-              check();
+                animationController.forward();
+                check();
+              }else{
+                _answers[ _currentIndex] = options[index];
+
+              }
             });
           },
         );
@@ -283,6 +290,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                       ),
 
                       SizedBox(height: 20.0),
+                      /*
                       Card(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -319,6 +327,16 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                           ],
                         ),
                       ),
+
+
+                       */
+                      Column(
+                        children: [
+                          for(int i = 0; i<options.length;i++)
+                            _createChildren().elementAt(i)
+
+                        ],
+                      ),
                       Expanded(
                         child: _currentIndex == (widget.questions.length - 1) ?Container(
                           alignment: Alignment.bottomCenter,
@@ -336,15 +354,6 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                           ),
                         ):Container(),
                       ),
-                      Column(
-                        children: [
-                          for(int i = 0; i<options.length;i++)
-                            _createChildren().elementAt(i)
-
-                        ],
-                      )
-
-
 
                     ],
                   ),
