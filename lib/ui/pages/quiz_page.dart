@@ -120,11 +120,26 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
             body: Stack(
               children: <Widget>[
                 ClipPath(
-                  clipper: WaveClipperTwo(),
-                  child: Container(
+                  //clipper: RoundedDiagonalPathClipper(),
+                  child: /*Container(
                     decoration:
                     BoxDecoration(color: Theme.of(context).primaryColor),
                     height: 200,
+                  ),
+                  */
+                  Container(
+                    //height: MediaQuery.of(context).size.height+2000,
+                    decoration: new BoxDecoration(
+                      gradient: new LinearGradient(
+                          colors: [
+                            const Color(0xFF6DBCFE),
+                            const Color(0xFF6E6EFF),
+                          ],
+                          begin: const FractionalOffset(0.0, 0.0),
+                          end: const FractionalOffset(1.0, 0.0),
+                          stops: [0.0, 1.0],
+                          tileMode: TileMode.repeated),
+                    ),
                   ),
                 ),
                 Padding(
@@ -179,6 +194,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
                               _showToast("Times Up!");
 
+                              /*
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => //Result()
@@ -186,6 +202,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                                     questions: widget.questions, answers: _answers)
                                 ),
                               );
+                              */
                             },
                           ),
                         ],
@@ -199,9 +216,9 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                             HtmlUnescape().convert(
                                 widget.questions[_currentIndex].question),
                             softWrap: true,
-                            style: MediaQuery.of(context).size.width > 800
-                                ? _questionStyle.copyWith(fontSize: 30.0)
-                                : _questionStyle,
+                            style: TextStyle(
+                                fontSize: Theme.of(context).textTheme.headline6.fontSize
+                            ) ,
                           ),
                         ),
                       ),
@@ -214,16 +231,25 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                             ...options.map((option) {
                               return RadioListTile(
                                 title: Text(HtmlUnescape().convert("$option"),
-                                  style: MediaQuery.of(context).size.width > 800
-                                      ? TextStyle(
-                                      fontSize: 30.0
-                                  ) : null,),
+                                  style: TextStyle(
+                                    fontSize: Theme.of(context).textTheme.headline6.fontSize
+                                  ) ,
+                                ),
                                 groupValue: _answers[_currentIndex],
                                 value: option,
 
                                 onChanged: (value) {
                                   setState(() {
                                     _answers[_currentIndex] = option;
+
+                                    animationController.reset();
+                                    _currentIndex++;
+
+                                    animation = IntTween(begin: _currentIndex, end: _currentIndex + 1).animate(
+                                        CurvedAnimation(parent: animationController, curve: Curves.ease)
+                                    );
+
+                                    animationController.forward();
                                   },);
                                 },
                               );
@@ -233,7 +259,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                         ),
                       ),
                       Expanded(
-                        child: Container(
+                        child: _currentIndex == (widget.questions.length - 1) ?Container(
                           alignment: Alignment.bottomCenter,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -241,13 +267,13 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                                   ? const EdgeInsets.symmetric(vertical: 20.0,horizontal: 64.0) : null,
                             ),
                             child: Text(
-                              _currentIndex == (widget.questions.length - 1)
-                                  ? "Submit"
-                                  : "Next", style: MediaQuery.of(context).size.width > 800
-                                ? TextStyle(fontSize: 30.0) : null,),
+                              //_currentIndex == (widget.questions.length - 1) ?
+                              "Submit"
+                                //  : "Next",// style: MediaQuery.of(context).size.width > 800 ? TextStyle(fontSize: 30.0) : null,
+                            ),
                             onPressed: _nextSubmit,
                           ),
-                        ),
+                        ):Container(),
                       )
                     ],
                   ),
@@ -275,9 +301,8 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
         animationController.reset();
         _currentIndex++;
 
-        animation = IntTween(begin: _currentIndex, end: _currentIndex+1).animate(
-            CurvedAnimation(parent: animationController,
-                curve: Curves.ease)
+        animation = IntTween(begin: _currentIndex, end: _currentIndex + 1).animate(
+            CurvedAnimation(parent: animationController, curve: Curves.ease)
         );
 
         animationController.forward();
@@ -304,18 +329,21 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                 "Are you sure you want to quit the quiz? All your progress will be lost."),
             title: Text("Warning!"),
             actions: <Widget>[
+
               TextButton(
                 child: Text("Yes"),
                 onPressed: () {
                   Navigator.pop(context, true);
                 },
               ),
+
               TextButton(
                 child: Text("No"),
                 onPressed: () {
                   Navigator.pop(context, false);
                 },
               ),
+
             ],
           );
         });
