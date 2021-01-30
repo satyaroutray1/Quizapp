@@ -2,6 +2,7 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:opentrivia/models/category.dart';
+import 'package:opentrivia/models/colorScheme.dart';
 import 'package:opentrivia/models/question.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:opentrivia/ui/pages/quiz_finished.dart';
@@ -65,10 +66,11 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
         });*/
   }
 
-
+  MyColorScheme myColorScheme;
   @override
   void initState() {
     // TODO: implement initState
+    myColorScheme = new MyColorScheme();
     fToast = FToast();
     fToast.init(context);
     super.initState();
@@ -97,6 +99,16 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
   final Map<int, dynamic> _answers = {};
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
+  final List item = [];
+
+  void check(){
+    print("${_answers}, ${_answers.length}, ${_answers.runtimeType}, ${(_answers.values.toList())[0]} ");
+    Map map = _answers;
+    map.forEach((k, v) => item.add(Options(num: k, option: v)));
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     Question question = widget.questions[_currentIndex];
@@ -104,6 +116,52 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     if (!options.contains(question.correctAnswer)) {
       options.add(question.correctAnswer);
       options.shuffle();
+    }
+
+    print("now options ${options.length}");
+    List<Widget> _createChildren() {
+      return new List<Widget>.generate(options.length, (int index) {
+        return InkWell(
+          child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: Color(0xff5C6BC0))
+              ),
+            margin: EdgeInsets.all(5),
+            padding: EdgeInsets.all(10),
+            //color: Color(0xff6949FD),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(options[index].toString(), style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: Theme.of(context).textTheme.headline6.fontSize
+                  ),),
+                  //Icon(Icons.check_circle),
+                  Icon(Icons.radio_button_off_outlined,color: Colors.white,)
+                ],
+              )),
+          onTap: (){
+            setState(() {
+              print("${options[index]}");
+
+              _answers[_currentIndex] = options[index];
+
+              animationController.reset();
+              _currentIndex++;
+
+              animation = IntTween(begin: _currentIndex, end: _currentIndex + 1)
+                  .animate(
+                  CurvedAnimation(
+                      parent: animationController, curve: Curves.ease)
+              );
+
+              animationController.forward();
+              check();
+            });
+          },
+        );
+      });
     }
 
     return AnimatedBuilder(
@@ -132,8 +190,8 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                     decoration: new BoxDecoration(
                       gradient: new LinearGradient(
                           colors: [
-                            const Color(0xFF6DBCFE),
-                            const Color(0xFF6E6EFF),
+                            const Color(0xFF303F9F),
+                            const Color(0xFF1F1147),
                           ],
                           begin: const FractionalOffset(0.0, 0.0),
                           end: const FractionalOffset(1.0, 0.0),
@@ -217,7 +275,8 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                                 widget.questions[_currentIndex].question),
                             softWrap: true,
                             style: TextStyle(
-                                fontSize: Theme.of(context).textTheme.headline6.fontSize
+                                fontSize: Theme.of(context).textTheme.headline6.fontSize,
+                              color: myColorScheme.QuestionColor,
                             ) ,
                           ),
                         ),
@@ -250,6 +309,8 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                                     );
 
                                     animationController.forward();
+                                    check();
+                                    print("options ${options}");
                                   },);
                                 },
                               );
@@ -274,7 +335,17 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                             onPressed: _nextSubmit,
                           ),
                         ):Container(),
+                      ),
+                      Column(
+                        children: [
+                          for(int i = 0; i<options.length;i++)
+                            _createChildren().elementAt(i)
+
+                        ],
                       )
+
+
+
                     ],
                   ),
                 )

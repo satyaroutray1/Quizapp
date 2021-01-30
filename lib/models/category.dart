@@ -34,3 +34,12 @@ final List<Category> categories = [
   Category(31,"Japanese Anime & Manga"),
   Category(32,"Cartoon & Animation"),
 ];
+
+
+class Options{
+  int num;
+  String option;
+  Options({
+    this.num,
+    this.option});
+}
