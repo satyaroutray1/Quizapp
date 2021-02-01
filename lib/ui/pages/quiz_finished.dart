@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:opentrivia/models/question.dart';
 import 'package:opentrivia/ui/pages/check_answers.dart';
+import 'package:opentrivia/ui/pages/report_card.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class QuizFinishedPage extends StatefulWidget {
   final List<Question> questions;
@@ -53,6 +55,7 @@ class _QuizFinishedPageState extends State<QuizFinishedPage> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFF303F9F),
         title: Text('Result'),
         elevation: 0,
       ),
@@ -60,104 +63,135 @@ class _QuizFinishedPageState extends State<QuizFinishedPage> {
         height: double.infinity,
         width: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Theme.of(context).primaryColor,
-              Theme.of(context).accentColor
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter
-          )
+          gradient: new LinearGradient(
+              colors: [
+                const Color(0xFF303F9F),
+                const Color(0xFF1F1147),
+              ],
+              begin: const FractionalOffset(0.0, 0.0),
+              end: const FractionalOffset(1.0, 0.0),
+              stops: [0.0, 1.0],
+              tileMode: TileMode.repeated),
         ),
         child: Stack(
           children: [
-            SingleChildScrollView(
+            Container(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: <Widget>[
-                  Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.all(16.0),
-                      title: Text("Total Questions", style: titleStyle),
-                      trailing: Text("${widget.questions.length}", style: trailingStyle),
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.all(16.0),
-                      title: Text("Score", style: titleStyle),
-                      trailing: Text("${correct/widget.questions.length * 100}%", style: trailingStyle),
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.all(16.0),
-                      title: Text("Correct Answers", style: titleStyle),
-                      trailing: Text("$correct/${widget.questions.length}", style: trailingStyle),
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.all(16.0),
-                      title: Text("Incorrect Answers", style: titleStyle),
-                      trailing: Text("${widget.questions.length - correct}/${widget.questions.length}", style: trailingStyle),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      color: Colors.white12,
+                      //height: MediaQuery.of(context).size.height/2,
+                      child: SfRadialGauge(
+                          axes: <RadialAxis>[
+                            RadialAxis(minimum: 0, maximum: 100,
+                                ranges: <GaugeRange>[
+                                  GaugeRange(startValue: 0, endValue: 35, color:Colors.red),
+                                  GaugeRange(startValue: 35,endValue: 70,color: Colors.orange),
+                                  GaugeRange(startValue: 70,endValue: 100,color: Colors.green)],
+                                pointers: <GaugePointer>[
+                                  NeedlePointer(
+                                    enableAnimation: true,
+                                      animationDuration: 5000,
+                                      animationType: AnimationType.bounceOut,
+                                      value: correct/widget.questions.length * 100)],
+                                annotations: <GaugeAnnotation>[
+                                  GaugeAnnotation(
+                                      widget: Container(
+                                          child: Text('${(correct/widget.questions.length * 100)} %',
+                                              style: TextStyle(fontSize: 25,
+                                                  fontWeight: FontWeight.bold,
+                                              color: Colors.white))),
+                                      angle: 90,
+                                      positionFactor: 0.5
+                                  )]
+                            )])
+
+
                     ),
                   ),
-                  SizedBox(height: 20.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          primary: Theme.of(context).accentColor.withOpacity(0.8),
-                        ),
-                        child: Text("Goto Home"),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          primary: Theme.of(context).primaryColor,
-                        ),
-                        child: Text("Check Answers"),
-                        onPressed: (){
+
+                  //SizedBox(height: 20.0),
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+
+                        MyButton(buttonName: "Check Solutions", function: (){
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (_) => CheckAnswersPage(questions: widget.questions, answers: widget.answers,)
                           ));
-                        },
-                      ),
-                    ],
+                        },),
+
+                        Row(
+                          children: [
+                            Expanded(
+                              flex:1,
+                              child: MyButton(buttonName: "Report", function: (){
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (_) => ReportCard(questions: widget.questions, answers: widget.answers,)
+                                ));
+                              },),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: MyButton(buttonName: "Home", function: (){
+                                Navigator.of(context).popUntil(ModalRoute.withName(Navigator.defaultRouteName));
+
+                              },),
+                            ),
+                          ],
+                        ),
+
+                      ],
+                    ),
                   )
                 ],
               ),
             ),
-            Visibility(
+            /*Visibility(
                 child: Lottie.asset('assets/lottie/starswinner.json'),
               visible: __visible,
             )
+
+             */
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class MyButton extends StatefulWidget {
+
+  String buttonName;
+  Function function;
+  MyButton({@required this.buttonName, this.function});
+
+  @override
+  _MyButtonState createState() => _MyButtonState();
+}
+
+class _MyButtonState extends State<MyButton> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Container(
+        margin: EdgeInsets.all(10),
+        child: RaisedButton(
+          color: Color(0xff36E9BA),
+          onPressed: widget.function,
+          child: Container(
+            margin: EdgeInsets.only(top: 10, bottom: 10),
+            child: Text(widget.buttonName, style: TextStyle(
+              fontSize: Theme.of(context).textTheme.headline6.fontSize,
+              color: Colors.white
+            ),),
+          ),
         ),
       ),
     );

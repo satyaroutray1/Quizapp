@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -107,8 +109,10 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     map.forEach((k, v) => item.add(Options(num: k, option: v)));
 
   }
+  Timer _timer;
 
-
+  Color color1 = Color(0xff5C6BC0);
+  Color color2 = Colors.red;
   @override
   Widget build(BuildContext context) {
     Question question = widget.questions[_currentIndex];
@@ -118,13 +122,12 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
       options.shuffle();
     }
 
-    print("now options ${options.length}");
     List<Widget> _createChildren() {
       return new List<Widget>.generate(options.length, (int index) {
         return InkWell(
           child: Container(
               decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xff5C6BC0))
+                  border: Border.all(color: color1)
               ),
             margin: EdgeInsets.all(5),
             padding: EdgeInsets.all(10),
@@ -143,7 +146,10 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
               )),
           onTap: (){
             setState(() {
-              if(animation.value < 10) {
+
+              print("ans : ${options[index]}, ${question.correctAnswer}");
+
+              if (animation.value < 10) {
                 print("a ${animation.value.toString()}");
                 print("${options[index]}");
 
@@ -161,10 +167,19 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
                 animationController.forward();
                 check();
-              }else{
-                _answers[ _currentIndex] = options[index];
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => //Result()
+                  QuizFinishedPage(
+                      questions: widget.questions, answers: _answers)
+                  ),
+                );              }
 
-              }
+
+
+
+
             });
           },
         );
@@ -179,21 +194,16 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
           child: Scaffold(
             key: _key,
             appBar: AppBar(
-              title: Text(widget.category.name),
+              backgroundColor: Color(0xFF303F9F),
+              title: Text(widget.category.name, style: TextStyle(
+                color: Colors.white54,
+              ),),
               elevation: 0,
             ),
             body: Stack(
               children: <Widget>[
                 ClipPath(
-                  //clipper: RoundedDiagonalPathClipper(),
-                  child: /*Container(
-                    decoration:
-                    BoxDecoration(color: Theme.of(context).primaryColor),
-                    height: 200,
-                  ),
-                  */
-                  Container(
-                    //height: MediaQuery.of(context).size.height+2000,
+                  child: Container(
                     decoration: new BoxDecoration(
                       gradient: new LinearGradient(
                           colors: [
@@ -221,14 +231,15 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text("Question " , style: TextStyle(
-                                      fontSize: 18
+                                      fontSize: 18,
+                                    color: Colors.white
                                   ),),
 
                                   Text(animation.value.toString(), style: TextStyle(
-                                      fontSize: 20, fontWeight: FontWeight.bold
+                                      fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xff37E9BB)
                                   ),),
                                   Text("/10 ", style: TextStyle(
-                                      fontSize: 18
+                                      fontSize: 18, color: Colors.white
                                   ),),
                                 ],
                               )
@@ -239,9 +250,9 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                             controller: CountDownController(),
                             width: MediaQuery.of(context).size.width / 10,
                             height: MediaQuery.of(context).size.width / 10,
-                            color: Colors.grey[300],
-                            fillColor: Colors.black,
-                            backgroundColor: Colors.black12,
+                            color: Color(0xffC5CAE9),
+                            backgroundColor: Color(0xFF303F9F),
+                            fillColor: Color(0xff37E9BB),
                             strokeWidth: 5.0,
                             strokeCap: StrokeCap.round,
                             textStyle: TextStyle(
@@ -259,15 +270,6 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
                               _showToast("Times Up!");
 
-                              /*
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => //Result()
-                                QuizFinishedPage(
-                                    questions: widget.questions, answers: _answers)
-                                ),
-                              );
-                              */
                             },
                           ),
                         ],
@@ -284,52 +286,13 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                             style: TextStyle(
                                 fontSize: Theme.of(context).textTheme.headline6.fontSize,
                               color: myColorScheme.QuestionColor,
+                              fontWeight: FontWeight.bold
                             ) ,
                           ),
                         ),
                       ),
 
                       SizedBox(height: 20.0),
-                      /*
-                      Card(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            ...options.map((option) {
-                              return RadioListTile(
-                                title: Text(HtmlUnescape().convert("$option"),
-                                  style: TextStyle(
-                                    fontSize: Theme.of(context).textTheme.headline6.fontSize
-                                  ) ,
-                                ),
-                                groupValue: _answers[_currentIndex],
-                                value: option,
-
-                                onChanged: (value) {
-                                  setState(() {
-                                    _answers[_currentIndex] = option;
-
-                                    animationController.reset();
-                                    _currentIndex++;
-
-                                    animation = IntTween(begin: _currentIndex, end: _currentIndex + 1).animate(
-                                        CurvedAnimation(parent: animationController, curve: Curves.ease)
-                                    );
-
-                                    animationController.forward();
-                                    check();
-                                    print("options ${options}");
-                                  },);
-                                },
-                              );
-                            }
-                            ),
-                          ],
-                        ),
-                      ),
-
-
-                       */
                       Column(
                         children: [
                           for(int i = 0; i<options.length;i++)
