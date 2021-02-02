@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:opentrivia/models/category.dart';
-import 'package:opentrivia/scroll.dart';
 import 'package:opentrivia/ui/pages/quiz_page.dart';
 import 'package:opentrivia/ui/widgets/quiz_options.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:opentrivia/models/question.dart';
 import 'package:opentrivia/resources/api_provider.dart';
+import 'package:progress_hud/progress_hud.dart';
 
 import 'error.dart';
 
@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
   double _scale;
   AnimationController _controller;
-
+  ProgressHUD _progressHUD;
   @override
   void initState() {
     _controller = AnimationController(vsync: this, duration: Duration(seconds: 1),
@@ -30,6 +30,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       upperBound: 0.1,)..addListener(() { setState(() {});});
 
     _controller.repeat();
+
+    _progressHUD = new ProgressHUD(
+      //backgroundColor: Colors.transparent,
+      color: Colors.white,
+      containerColor: Colors.blue,
+      borderRadius: 5.0,
+      text: 'Loading....',
+    );
     /*SchedulerBinding.instance.addPostFrameCallback((_) {
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
@@ -43,6 +51,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   ScrollController _scrollController = new ScrollController();
   final List<int> numbers = [1, 2, 3, 5, 8, 13, 21, 34, 55];
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,6 +183,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
           _controller.stop();
           _startQuiz(category);
+          showDialog(context: context, builder: (context){
+
+            return Dialog(
+                child: Container(
+                  color: Colors.transparent,
+                  child: Text("Loading...")//_progressHUD//Icon(Icons.category),
+                ),
+            );
+          });
         },
         shape: CircleBorder(
             side: BorderSide(

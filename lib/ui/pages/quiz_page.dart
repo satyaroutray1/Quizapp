@@ -91,7 +91,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
   @override
   void dispose() {
     super.dispose();
-    animationController.dispose();
+    //animationController.dispose();
   }
 
   final TextStyle _questionStyle = TextStyle(
@@ -109,7 +109,6 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     map.forEach((k, v) => item.add(Options(num: k, option: v)));
 
   }
-  Timer _timer;
 
   Color color1 = Color(0xff5C6BC0);
   Color color2 = Colors.red;
@@ -174,9 +173,8 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                   QuizFinishedPage(
                       questions: widget.questions, answers: _answers)
                   ),
-                );              }
-
-
+                );
+              }
 
 
 
@@ -269,6 +267,15 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                               print('Countdown Ended');
 
                               _showToast("Times Up!");
+                              /*exit*/
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => //Result()
+                                QuizFinishedPage(
+                                    questions: widget.questions, answers: _answers)
+                                ),
+                              );
 
                             },
                           ),

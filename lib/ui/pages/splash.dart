@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:opentrivia/scroll.dart';
 import 'package:opentrivia/ui/pages/home.dart';
 
 class Splash extends StatefulWidget {
@@ -44,29 +43,40 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin{
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Container(
-                height: 500,
-                width: 500,
-                child: Lottie.asset('assets/lottie/quiz.json')),
-            SizedBox(
-              height: 0.0,
+        backgroundColor: Color(0xffA770FF),
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/126.jpg"),
+              fit: BoxFit.fitWidth,
             ),
-            Center(
-              child: GestureDetector(
-                onTapDown: _onTapDown,
-                onTapUp: _onTapUp,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              /*Container(
+                  height: 500,
+                  width: 500,
+                  child: Lottie.asset('assets/lottie/quiz.json')),
 
-                child: Transform.scale(
-                  scale: _scale,
-                  child: _animatedButtonUI,
+               */
+              SizedBox(
+                height: MediaQuery.of(context).size.height/2,
+              ),
+              Center(
+                child: GestureDetector(
+                  onTapDown: _onTapDown,
+                  onTapUp: _onTapUp,
+
+                  child: Transform.scale(
+                    scale: _scale,
+                    child: _animatedButtonUI,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
 
+          ),
         ),
       ),
     );
@@ -88,11 +98,8 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin{
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            //Color(0xFF0000FF),
-            //Color(0xFFFF3500),
-//            Colors.blue,
-            Colors.black,
-            Colors.blue,
+            const Color(0xFF303F9F),
+            const Color(0xFF1F1147),
 
           ],
         )),

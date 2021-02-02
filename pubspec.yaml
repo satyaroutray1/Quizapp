@@ -19,7 +19,7 @@ dependencies:
   circular_countdown_timer: ^0.0.9
   fluttertoast: ^7.1.6
   syncfusion_flutter_gauges: ^18.4.39
-  scroll_to_index: ^1.0.6
+  progress_hud: ^1.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -31,6 +31,7 @@ flutter:
   assets:
     - assets/lottie/
     - assets/fonts/
+    - assets/images/
   fonts:
     - family: Montserrat
       fonts:
