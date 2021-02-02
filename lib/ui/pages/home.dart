@@ -1,8 +1,11 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:opentrivia/models/category.dart';
+import 'package:opentrivia/scroll.dart';
 import 'package:opentrivia/ui/pages/quiz_page.dart';
 import 'package:opentrivia/ui/widgets/quiz_options.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -16,19 +19,29 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  final List<Color> tileColors = [
-    Colors.green,
-    Colors.blue,
-    Colors.purple,
-    Colors.pink,
-    Colors.indigo,
-    Colors.lightBlue,
-    Colors.amber,
-    Colors.deepOrange,
-    Colors.red,
-    Colors.brown
-  ];
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
+  double _scale;
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    _controller = AnimationController(vsync: this, duration: Duration(seconds: 1),
+      lowerBound: 0.0,
+      upperBound: 0.1,)..addListener(() { setState(() {});});
+
+    _controller.repeat();
+    /*SchedulerBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    });*/
+    super.initState();
+  }
+
+  ScrollController _scrollController = new ScrollController();
+  final List<int> numbers = [1, 2, 3, 5, 8, 13, 21, 34, 55];
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +68,55 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            /*
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+              height: MediaQuery.of(context).size.height * 0.35,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 23,
+                  //shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                return Container(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: Container(
+                    child: Center(
+                      child: _buildCategoryItem(context, index),
+                      // )
+                    ),
+                  ),
+                );
+              }),
+            ),
+            */
+            GridView.builder(
+              scrollDirection: Axis.horizontal,
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    //childAspectRatio: 3 / 2,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 0),
+                itemCount: 23,
+                itemBuilder: (BuildContext ctx, index) {
+                  return Container(
+                    alignment: Alignment.center,
+                    child:_buildCategoryItem(context, index,),
+                  );
+                }),
+            /*
+            ListView.builder(
+              //scrollDirection: Axis.horizontal,
+              itemCount: 23,
+              //controller: _scrollController,
+              //reverse: true,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: _buildCategoryItem(context, index),
+                );
+              },
+            ),*/
+            /*
             CustomScrollView(
               physics: BouncingScrollPhysics(),
               slivers: <Widget>[
@@ -88,41 +150,54 @@ class _HomePageState extends State<HomePage> {
                       )),
                 ),
               ],
-            ),
+            ),*/
           ],
         ));
   }
 
   Widget _buildCategoryItem(BuildContext context, int index) {
     Category category = categories[index];
-    return MaterialButton(
-      elevation: 1.0,
-      highlightElevation: 1.0,
-      onPressed: () {
-        //_categoryPressed(context, category);
+    _scale = 1 - _controller.value;
+    return Transform.scale(
+      
+      scale: _scale,
+      child: RaisedButton(
+        elevation: 10.0,
+        //highlightElevation: 1.0,
+        onPressed: () {
+          //_categoryPressed(context, category);
 
-        _startQuiz(category);
-      },
-      shape: CircleBorder(
-        side: BorderSide.none
-        //borderRadius: BorderRadius.circular(10.0),
-      ),
-      color: Colors.white,//Colors.grey.shade800,
-      textColor: Colors.blue,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          if (category.icon != null) Icon(category.icon),
-          if (category.icon != null) SizedBox(height: 5.0),
-          AutoSizeText(
-            category.name,
-
-            minFontSize: 10.0,
-            textAlign: TextAlign.center,
-            maxLines: 3,
-            wrapWords: false,
-          ),
-        ],
+          _controller.stop();
+          _startQuiz(category);
+        },
+        shape: CircleBorder(
+            side: BorderSide(
+                color: Colors.white,
+            width: 0.5,
+            style: BorderStyle.solid)
+          //borderRadius: BorderRadius.circular(10.0),
+        ),
+        color: category.color//Colors.transparent
+        ,//Colors.grey.shade800,
+        textColor: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            if (category.icon != null) Icon(category.icon),
+            //if (category.icon != null) SizedBox(height: 5.0),
+            AutoSizeText(
+              category.name,
+              //minFontSize: 10.0,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                //fontSize: Theme.of(context).textTheme.headline6.fontSize
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 3,
+              wrapWords: false,
+            ),
+          ],
+        ),
       ),
     );
   }

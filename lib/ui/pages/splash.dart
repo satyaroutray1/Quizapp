@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:opentrivia/scroll.dart';
 import 'package:opentrivia/ui/pages/home.dart';
 
 class Splash extends StatefulWidget {
@@ -109,6 +110,8 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin{
                 fontWeight: FontWeight.bold,
                 color: Colors.white),
           ),
+
+
         ],
       )
     ),
