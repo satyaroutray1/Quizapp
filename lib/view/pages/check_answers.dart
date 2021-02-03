@@ -5,6 +5,7 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:opentrivia/models/question.dart';
 import 'package:opentrivia/view/pages/quiz_finished.dart';
+import 'package:opentrivia/view/widgets/button.dart';
 
 class CheckAnswersPage extends StatelessWidget {
   final List<Question> questions;
@@ -51,7 +52,7 @@ class CheckAnswersPage extends StatelessWidget {
   }
   Widget _buildItem(BuildContext context, int index) {
     if(index == questions.length) {
-      return MyButton(
+      return myButton(
         buttonName: 'Done',
         function: (){
           Navigator.of(context).popUntil(ModalRoute.withName(Navigator.defaultRouteName));

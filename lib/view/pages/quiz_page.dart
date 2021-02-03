@@ -72,8 +72,10 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
   Color color1 = Color(0xff5C6BC0);
   Color color2 = Colors.red;
+
   @override
   Widget build(BuildContext context) {
+
     Question question = widget.questions[_currentIndex];
     final List<dynamic> options = question.incorrectAnswers;
     if (!options.contains(question.correctAnswer)) {
@@ -239,6 +241,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
                             },
                           ),
+
                         ],
                       ),
                       SizedBox(
@@ -336,7 +339,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
         builder: (_) {
           return AlertDialog(
             content: Text(
-                "Are you sure you want to quit the quiz? All your progress will be lost."),
+                "Are you sure you want to quit the quiz?"),
             title: Text("Warning!"),
             actions: <Widget>[
 

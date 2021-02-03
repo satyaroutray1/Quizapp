@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:opentrivia/models/question.dart';
 import 'package:opentrivia/view/pages/check_answers.dart';
 import 'package:opentrivia/view/pages/report_card.dart';
+import 'package:opentrivia/view/widgets/button.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class QuizFinishedPage extends StatefulWidget {
@@ -10,9 +11,7 @@ class QuizFinishedPage extends StatefulWidget {
   final Map<int, dynamic> answers;
   
 
-  QuizFinishedPage({Key key, @required this.questions, @required this.answers}): super(key: key) {
-    
-  }
+  QuizFinishedPage({Key key, @required this.questions, @required this.answers}): super(key: key);
 
   @override
   _QuizFinishedPageState createState() => _QuizFinishedPageState();
@@ -120,7 +119,7 @@ class _QuizFinishedPageState extends State<QuizFinishedPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
 
-                        MyButton(buttonName: "Check Solutions", function: (){
+                        myButton(buttonName: "Check Solutions", function: (){
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (_) => CheckAnswersPage(questions: widget.questions, answers: widget.answers,)
                           ));
@@ -130,7 +129,7 @@ class _QuizFinishedPageState extends State<QuizFinishedPage> {
                           children: [
                             Expanded(
                               flex:1,
-                              child: MyButton(buttonName: "Report", function: (){
+                              child: myButton(buttonName: "Report", function: (){
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (_) => ReportCard(questions: widget.questions, answers: widget.answers,)
                                 ));
@@ -138,7 +137,7 @@ class _QuizFinishedPageState extends State<QuizFinishedPage> {
                             ),
                             Expanded(
                               flex: 1,
-                              child: MyButton(buttonName: "Home", function: (){
+                              child: myButton(buttonName: "Home", function: (){
                                 Navigator.of(context).popUntil(ModalRoute.withName(Navigator.defaultRouteName));
 
                               },),
@@ -159,39 +158,6 @@ class _QuizFinishedPageState extends State<QuizFinishedPage> {
 
              */
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class MyButton extends StatefulWidget {
-
-  String buttonName;
-  Function function;
-  MyButton({@required this.buttonName, this.function});
-
-  @override
-  _MyButtonState createState() => _MyButtonState();
-}
-
-class _MyButtonState extends State<MyButton> {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Container(
-        margin: EdgeInsets.all(10),
-        child: RaisedButton(
-          color: Color(0xff36E9BA),
-          onPressed: widget.function,
-          child: Container(
-            margin: EdgeInsets.only(top: 10, bottom: 10),
-            child: Text(widget.buttonName, style: TextStyle(
-              fontSize: Theme.of(context).textTheme.headline6.fontSize,
-              color: Colors.white
-            ),),
-          ),
         ),
       ),
     );
