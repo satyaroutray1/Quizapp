@@ -9,6 +9,7 @@ import 'package:opentrivia/models/question.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:opentrivia/view/pages/quiz_finished.dart';
 import 'package:html_unescape/html_unescape.dart';
+import 'package:opentrivia/view/widgets/toastWidget.dart';
 
 class QuizPage extends StatefulWidget {
   final List<Question> questions;
@@ -22,70 +23,29 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin{
+
   Animation animation;
   AnimationController animationController, animationController1;
 
-  FToast fToast;
-
-
-  _showToast(String message) {
-    Widget toast = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
-        color: Colors.greenAccent,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          //Icon(Icons.check),
-          SizedBox(
-            width: 12.0,
-          ),
-          Text(message),
-        ],
-      ),
-    );
-
-
-    fToast.showToast(
-      child: toast,
-      gravity: ToastGravity.BOTTOM,
-      toastDuration: Duration(seconds: 2),
-    );
-
-    // Custom Toast Position
-    /*
-    fToast.showToast(
-        child: toast,
-        toastDuration: Duration(seconds: 2),
-        positionedToastBuilder: (context, child) {
-          return Positioned(
-            child: child,
-            top: 16.0,
-            left: 16.0,
-          );
-        });*/
-  }
-
   MyColorScheme myColorScheme;
+
   @override
   void initState() {
     // TODO: implement initState
     myColorScheme = new MyColorScheme();
-    fToast = FToast();
     fToast.init(context);
-    super.initState();
 
     animationController = AnimationController(vsync: this,
-    duration: Duration(seconds: 2));
+        duration: Duration(seconds: 2));
 
     animation = IntTween(begin: 0, end: _currentIndex+1).animate(
-      CurvedAnimation(parent: animationController,
-          curve: Curves.ease)
+        CurvedAnimation(parent: animationController,
+            curve: Curves.ease)
     );
 
     animationController.forward();
+
+    super.initState();
   }
 
   @override
@@ -266,7 +226,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                             onComplete: () {
                               print('Countdown Ended');
 
-                              _showToast("Times Up!");
+                              showToast("Times Up!");
                               /*exit*/
 
                               Navigator.push(
@@ -343,7 +303,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
         content: Text("You must select an answer to continue."),
       )
       );*/
-      _showToast("You must select an answer to continue.");
+      showToast("You must select an answer to continue.");
       return;
     }
     if (_currentIndex < (widget.questions.length - 1)) {

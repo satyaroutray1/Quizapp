@@ -20,9 +20,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
+  
   double _scale;
   AnimationController _controller;
   ProgressHUD _progressHUD;
+  
   @override
   void initState() {
     _controller = AnimationController(vsync: this, duration: Duration(seconds: 1),
@@ -38,25 +40,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       borderRadius: 5.0,
       text: 'Loading....',
     );
-    /*SchedulerBinding.instance.addPostFrameCallback((_) {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-    });*/
+
     super.initState();
   }
-
-  ScrollController _scrollController = new ScrollController();
+  
   final List<int> numbers = [1, 2, 3, 5, 8, 13, 21, 34, 55];
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _controller.dispose();
     super.dispose();
   }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,27 +77,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 ),
               ),
             ),
-            /*
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-              height: MediaQuery.of(context).size.height * 0.35,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 23,
-                  //shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                return Container(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  child: Container(
-                    child: Center(
-                      child: _buildCategoryItem(context, index),
-                      // )
-                    ),
-                  ),
-                );
-              }),
-            ),
-            */
+
             GridView.builder(
               scrollDirection: Axis.horizontal,
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -114,67 +89,20 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 itemBuilder: (BuildContext ctx, index) {
                   return Container(
                     alignment: Alignment.center,
-                    child:_buildCategoryItem(context, index,),
+                    child:_categoryItemWidget(context, index,),
                   );
                 }),
-            /*
-            ListView.builder(
-              //scrollDirection: Axis.horizontal,
-              itemCount: 23,
-              //controller: _scrollController,
-              //reverse: true,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: _buildCategoryItem(context, index),
-                );
-              },
-            ),*/
-            /*
-            CustomScrollView(
-              physics: BouncingScrollPhysics(),
-              slivers: <Widget>[
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8.0),
-                    child: Text(
-                      "Select a category to start the quiz",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.0),
-                    ),
-                  ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.all(16.0),
-                  sliver: SliverGrid(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: MediaQuery.of(context).size.width >
-                                  1000
-                              ? 7
-                              : MediaQuery.of(context).size.width > 600 ? 5 : 3,
-                          childAspectRatio: 1.2,
-                          crossAxisSpacing: 10.0,
-                          mainAxisSpacing: 10.0),
-                      delegate: SliverChildBuilderDelegate(
-                        _buildCategoryItem,
-                        childCount: categories.length,
-                      )),
-                ),
-              ],
-            ),*/
+
           ],
         ));
   }
-  final _random = new Random();
-  Widget _buildCategoryItem(BuildContext context, int index) {
-    Category category = //categories[_random.nextInt(index)];
-    categories[index];
+
+  Widget _categoryItemWidget(BuildContext context, int index) {
+
+    Category category = categories[index];
     _scale = 1 - _controller.value;
+
     return Transform.scale(
-      
       scale: _scale,
       child: RaisedButton(
         elevation: 10.0,
@@ -242,9 +170,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
 
   void _startQuiz(Category category) async {
-    setState(() {
-      //processing=true;
-    });
+
     try {
       List<Question> questions =  await getQuestions(category, 10, "easy");
       Navigator.pop(context);
@@ -274,9 +200,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           }
       ));
     }
-    setState(() {
-      //processing=false;
-    });
   }
 }
 
