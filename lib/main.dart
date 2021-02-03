@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:opentrivia/ui/pages/home.dart';
-import 'package:opentrivia/ui/pages/splash.dart';
+import 'package:opentrivia/view/pages/home.dart';
+import 'package:opentrivia/view/pages/splashScreen.dart';
 
 void main() => runApp(MyApp());
 

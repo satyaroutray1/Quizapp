@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:opentrivia/models/category.dart';
-import 'package:opentrivia/ui/pages/quiz_page.dart';
-import 'package:opentrivia/ui/widgets/quiz_options.dart';
+import 'package:opentrivia/view/pages/quiz_page.dart';
+import 'package:opentrivia/view/widgets/quiz_options.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:opentrivia/models/question.dart';
 import 'package:opentrivia/resources/api_provider.dart';
@@ -168,9 +168,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           ],
         ));
   }
-
+  final _random = new Random();
   Widget _buildCategoryItem(BuildContext context, int index) {
-    Category category = categories[index];
+    Category category = //categories[_random.nextInt(index)];
+    categories[index];
     _scale = 1 - _controller.value;
     return Transform.scale(
       

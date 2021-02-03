@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:opentrivia/models/category.dart';
 import 'package:opentrivia/models/question.dart';
 import 'package:opentrivia/resources/api_provider.dart';
-import 'package:opentrivia/ui/pages/error.dart';
-import 'package:opentrivia/ui/pages/quiz_page.dart';
+import 'package:opentrivia/view/pages/error.dart';
+import 'package:opentrivia/view/pages/quiz_page.dart';
 
 class QuizOptionsDialog extends StatefulWidget {
   final Category category;

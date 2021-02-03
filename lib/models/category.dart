@@ -20,16 +20,18 @@ final List<Color> tileColors = [
   Colors.lightBlue,
   Colors.amber,
   Colors.deepOrange,
+  Colors.brown,
   Colors.red,
-  Colors.brown
 ];
 
 final List<Category> categories = [
   Category(9,"General Knowledge",  tileColors[0] //icon: FontAwesomeIcons.globeAsia
   ),
-  Category(13,"Musicals & Theatres", tileColors[1] //icon: FontAwesomeIcons.theaterMasks
-  ),
+  /*Category(13,"Musicals & Theatres", tileColors[1] //icon: FontAwesomeIcons.theaterMasks
+  ),*/
   Category(10,"Books", tileColors[2]//icon: FontAwesomeIcons.bookOpen
+  ),
+  Category(15,"Video Games",tileColors[6] //icon: FontAwesomeIcons.gamepad
   ),
   Category(11,"Film",tileColors[3] //icon: FontAwesomeIcons.video
   ),
@@ -38,8 +40,7 @@ final List<Category> categories = [
 
   Category(14,"Television", tileColors[5]//icon: FontAwesomeIcons.tv
   ),
-  Category(15,"Video Games",tileColors[6] //icon: FontAwesomeIcons.gamepad
-  ),
+
   Category(16,"Board Games", tileColors[7]//icon: FontAwesomeIcons.chessBoard
   ),
   Category(17,"Science & Nature",tileColors[8] //icon: FontAwesomeIcons.microscope

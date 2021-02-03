@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:opentrivia/models/question.dart';
-import 'package:opentrivia/ui/pages/check_answers.dart';
-import 'package:opentrivia/ui/pages/report_card.dart';
+import 'package:opentrivia/view/pages/check_answers.dart';
+import 'package:opentrivia/view/pages/report_card.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class QuizFinishedPage extends StatefulWidget {

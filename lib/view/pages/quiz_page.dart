@@ -7,7 +7,7 @@ import 'package:opentrivia/models/category.dart';
 import 'package:opentrivia/models/colorScheme.dart';
 import 'package:opentrivia/models/question.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:opentrivia/ui/pages/quiz_finished.dart';
+import 'package:opentrivia/view/pages/quiz_finished.dart';
 import 'package:html_unescape/html_unescape.dart';
 
 class QuizPage extends StatefulWidget {
