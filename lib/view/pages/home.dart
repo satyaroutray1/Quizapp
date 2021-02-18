@@ -5,6 +5,7 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:loading_animations/loading_animations.dart';
 import 'package:opentrivia/models/category.dart';
 import 'package:opentrivia/view/pages/quiz_page.dart';
 import 'package:opentrivia/view/widgets/quiz_options.dart';
@@ -24,8 +25,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   
   double _scale;
   AnimationController _controller;
-  ProgressHUD _progressHUD;
-  
+
   @override
   void initState() {
     _controller = AnimationController(vsync: this, duration: Duration(seconds: 1),
@@ -33,14 +33,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       upperBound: 0.1,)..addListener(() { setState(() {});});
 
     _controller.repeat();
-
-    _progressHUD = new ProgressHUD(
-      //backgroundColor: Colors.transparent,
-      color: Colors.white,
-      containerColor: Colors.blue,
-      borderRadius: 5.0,
-      text: 'Loading....',
-    );
 
     super.initState();
   }
@@ -122,9 +114,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           showDialog(context: context, builder: (context){
 
             return Dialog(
-                child: Container(
-                  color: Colors.transparent,
-                  child: Text("Loading...")//_progressHUD//Icon(Icons.category),
+              backgroundColor: Colors.transparent,
+              child: Container(
+                  child: LoadingBouncingGrid.square (
+                    backgroundColor: Color(0xff36E9BA),
+                  )
                 ),
             );
           });
@@ -161,20 +155,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  _categoryPressed(BuildContext context, Category category) {
-    showModalBottomSheet(
-      context: context,
-      builder: (sheetContext) => BottomSheet(
-        builder: (_) {
-          return QuizOptionsDialog(
-            category: category,
-          );
-        },
-        onClosing: () {},
-      ),
-    );
-  }
-
 
   void _startQuiz(Category category) async {
 
@@ -196,7 +176,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     }on SocketException catch (_) {
       Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (_) {
-            return ErrorPage(message: "Can't reach the servers, \n Please check your internet connection.",);
+            return ErrorPage(message: "Please check your internet connection.",);
           }
       ));
     } catch(e){

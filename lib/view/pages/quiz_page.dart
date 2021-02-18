@@ -187,7 +187,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
               title: Text(widget.category.name, style: TextStyle(
                 color: Colors.white54,
               ),),
-              elevation: 0,
+              elevation: 5,
             ),
             body: Stack(
               children: <Widget>[
@@ -225,7 +225,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                                   ),),
 
                                   Text(animation.value.toString(), style: TextStyle(
-                                      fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xff37E9BB)
+                                      fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xff36E9BA)
                                   ),),
                                   Text("/10 ", style: TextStyle(
                                       fontSize: 18, color: Colors.white
