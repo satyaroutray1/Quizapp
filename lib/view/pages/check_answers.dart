@@ -85,12 +85,14 @@ class CheckAnswersPage extends StatelessWidget {
                 SizedBox(
                   width: 10,
                 ),
-                Text(HtmlUnescape().convert("${answers[index]}"), style: TextStyle(
-                    color: correct ? Colors.green : Colors.red,
-                    decoration: correct? null: TextDecoration.lineThrough,
-                    fontSize: 18.0,
-                    fontWeight: correct? FontWeight.bold : null
-                ),),
+                Flexible(
+                  child: Text(HtmlUnescape().convert("${answers[index]}"), style: TextStyle(
+                      color: correct ? Colors.green : Colors.red,
+                      decoration: correct? null: TextDecoration.lineThrough,
+                      fontSize: 18.0,
+                      fontWeight: correct? FontWeight.bold : null
+                  ),),
+                ),
 
               ],
             ),

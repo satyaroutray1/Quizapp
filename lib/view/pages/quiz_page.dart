@@ -25,7 +25,7 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin{
 
   Animation animation;
-  AnimationController animationController, animationController1;
+  AnimationController animationController;
 
   MyColorScheme myColorScheme;
 
@@ -36,7 +36,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     fToast.init(context);
 
     animationController = AnimationController(vsync: this,
-        duration: Duration(seconds: 2));
+        duration: Duration(seconds: 1));
 
     animation = IntTween(begin: 0, end: _currentIndex+1).animate(
         CurvedAnimation(parent: animationController,
@@ -50,8 +50,8 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
   @override
   void dispose() {
+    animationController.dispose();
     super.dispose();
-    //animationController.dispose();
   }
 
   final TextStyle _questionStyle = TextStyle(
@@ -64,14 +64,15 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
   final List item = [];
 
   void check(){
-    print("${_answers}, ${_answers.length}, ${_answers.runtimeType}, ${(_answers.values.toList())[0]} ");
     Map map = _answers;
     map.forEach((k, v) => item.add(Options(num: k, option: v)));
+    print("c ${_answers}, ${_answers.length}, ${_answers.runtimeType} ");
 
   }
 
   Color color1 = Color(0xff5C6BC0);
   Color color2 = Colors.red;
+  CountDownController _controller = CountDownController();
 
   @override
   Widget build(BuildContext context) {
@@ -88,61 +89,90 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
         return InkWell(
           child: Container(
               decoration: BoxDecoration(
-                  border: Border.all(color: color1)
-              ),
+                border: Border.all(color: color1),
+                color: Colors.transparent,),
             margin: EdgeInsets.all(5),
             padding: EdgeInsets.all(10),
-            //color: Color(0xff6949FD),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(options[index].toString(), style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: Theme.of(context).textTheme.headline6.fontSize
-                  ),),
-                  //Icon(Icons.check_circle),
+                  Expanded(
+                    child: Text(HtmlUnescape().convert(options[index].toString()),
+                      style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: Theme.of(context).textTheme.headline6.fontSize
+                    ), overflow: TextOverflow.ellipsis,),
+                  ),
                   Icon(Icons.radio_button_off_outlined,color: Colors.white,)
                 ],
               )),
           onTap: (){
             setState(() {
-
               print("ans : ${options[index]}, ${question.correctAnswer}");
+              print("_currentIndex: $_currentIndex");
 
-              if (animation.value < 10) {
-                print("a ${animation.value.toString()}");
-                print("${options[index]}");
-
-                _answers[ _currentIndex] = options[index];
+              if (_currentIndex < 9) {
+                print("a ${animation.value.toString()} $_currentIndex ${options[index]}");
 
                 animationController.reset();
-                _currentIndex++;
 
                 animation =
-                    IntTween(begin: _currentIndex, end: _currentIndex + 1)
+                    IntTween(begin: _currentIndex+1, end: _currentIndex + 2)
                         .animate(
                         CurvedAnimation(
                             parent: animationController, curve: Curves.ease)
                     );
 
                 animationController.forward();
+                _answers[ _currentIndex] = options[index];
                 check();
+                _currentIndex++;
+
               } else {
+
+                _answers[ _currentIndex] = options[index];
+                check();
                 Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => //Result()
-                  QuizFinishedPage(
+                  context, MaterialPageRoute(builder: (context) => QuizFinishedPage(
                       questions: widget.questions, answers: _answers)
                   ),
                 );
               }
 
-
-
             });
           },
         );
       });
+    }
+
+    Future<bool> onWillPop() async {
+      return showDialog<bool>(
+          context: context,
+          builder: (_) {
+            return AlertDialog(
+              content: Text(
+                  "Are you sure you want to quit the quiz?"),
+              title: Text("Warning!"),
+              actions: <Widget>[
+
+                TextButton(
+                  child: Text("Yes"),
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                ),
+
+                TextButton(
+                  child: Text("No"),
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                ),
+
+              ],
+            );
+          });
     }
 
     return AnimatedBuilder(
@@ -206,7 +236,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
                           CircularCountDownTimer(
                             duration: 10,
-                            controller: CountDownController(),
+                            controller: _controller,
                             width: MediaQuery.of(context).size.width / 10,
                             height: MediaQuery.of(context).size.width / 10,
                             color: Color(0xffC5CAE9),
@@ -230,10 +260,8 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                               showToast("Times Up!");
                               /*exit*/
 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => //Result()
-                                QuizFinishedPage(
+                              Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) => QuizFinishedPage(
                                     questions: widget.questions, answers: _answers)
                                 ),
                               );
@@ -301,10 +329,6 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
   void _nextSubmit() {
     if (_answers[_currentIndex] == null) {
-      /*_key.currentState.showSnackBar(SnackBar(
-        content: Text("You must select an answer to continue."),
-      )
-      );*/
       showToast("You must select an answer to continue.");
       return;
     }
@@ -321,7 +345,6 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
       });
     } else {
 
-
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => //Result()
@@ -332,34 +355,6 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     }
   }
 
-  Future<bool> onWillPop() async {
-    return showDialog<bool>(
-        context: context,
-        builder: (_) {
-          return AlertDialog(
-            content: Text(
-                "Are you sure you want to quit the quiz?"),
-            title: Text("Warning!"),
-            actions: <Widget>[
-
-              TextButton(
-                child: Text("Yes"),
-                onPressed: () {
-                  Navigator.pop(context, true);
-                },
-              ),
-
-              TextButton(
-                child: Text("No"),
-                onPressed: () {
-                  Navigator.pop(context, false);
-                },
-              ),
-
-            ],
-          );
-        });
-  }
 }
 
 

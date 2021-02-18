@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       print(e.message);
       Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (_) {
-            return ErrorPage(message: "Unexpected error trying to connect to the API",);
+            return ErrorPage(message: "Server is busy, Please try after sometime",);
           }
       ));
     }
