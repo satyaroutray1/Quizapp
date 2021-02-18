@@ -129,9 +129,8 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                 animationController.forward();
                 check();
               } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => //Result()
+                Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => //Result()
                   QuizFinishedPage(
                       questions: widget.questions, answers: _answers)
                   ),
@@ -150,7 +149,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
       animation: animationController,
       builder: (BuildContext context, Widget child) {
         return WillPopScope(
-          onWillPop: _onWillPop,
+          onWillPop: onWillPop,
           child: Scaffold(
             key: _key,
             appBar: AppBar(
@@ -323,7 +322,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     } else {
 
 
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => //Result()
           QuizFinishedPage(
@@ -333,7 +332,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     }
   }
 
-  Future<bool> _onWillPop() async {
+  Future<bool> onWillPop() async {
     return showDialog<bool>(
         context: context,
         builder: (_) {

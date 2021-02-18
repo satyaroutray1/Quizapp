@@ -84,7 +84,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin{
 
     _timer = new Timer(const Duration(milliseconds: 200), () {
       setState(() {
-        Navigator.push( context,
+        Navigator.pushReplacement( context,
           MaterialPageRoute(builder: (context) => HomePage()),
         );
       });

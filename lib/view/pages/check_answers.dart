@@ -7,6 +7,8 @@ import 'package:opentrivia/models/question.dart';
 import 'package:opentrivia/view/pages/quiz_finished.dart';
 import 'package:opentrivia/view/widgets/button.dart';
 
+import 'home.dart';
+
 class CheckAnswersPage extends StatelessWidget {
   final List<Question> questions;
   final Map<int,dynamic> answers;
@@ -55,8 +57,9 @@ class CheckAnswersPage extends StatelessWidget {
       return myButton(
         buttonName: 'Done',
         function: (){
-          Navigator.of(context).popUntil(ModalRoute.withName(Navigator.defaultRouteName));
-        },
+          Navigator.pushReplacement( context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );        },
 
       );
     }

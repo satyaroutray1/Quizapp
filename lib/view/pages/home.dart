@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -57,44 +58,49 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         appBar: AppBar(
           backgroundColor: Color(0xFF303F9F),
           title: Text('Quiz App'),
-          elevation: 0,
+          elevation: 5,
           automaticallyImplyLeading: false,
         ),
 
-        body: Stack(
-          children: <Widget>[
-            ClipPath(
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: new LinearGradient(
-                      colors: [
-                        const Color(0xFF303F9F),
-                        const Color(0xFF1F1147),
-                      ],
-                      begin: const FractionalOffset(0.0, 0.0),
-                      end: const FractionalOffset(1.0, 0.0),
-                      stops: [0.0, 1.0],
-                      tileMode: TileMode.repeated),
+        body: DoubleBackToCloseApp(
+          snackBar: SnackBar(
+            content: Text('Tap back again to leave'),
+          ),
+          child: Stack(
+            children: <Widget>[
+              ClipPath(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: new LinearGradient(
+                        colors: [
+                          const Color(0xFF303F9F),
+                          const Color(0xFF1F1147),
+                        ],
+                        begin: const FractionalOffset(0.0, 0.0),
+                        end: const FractionalOffset(1.0, 0.0),
+                        stops: [0.0, 1.0],
+                        tileMode: TileMode.repeated),
+                  ),
                 ),
               ),
-            ),
 
-            GridView.builder(
-              scrollDirection: Axis.horizontal,
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 200,
-                    childAspectRatio: 1.5,
-                    crossAxisSpacing:0,
-                    mainAxisSpacing: 0),
-                itemCount: 20,
-                itemBuilder: (BuildContext ctx, index) {
-                  return Container(
-                    alignment: Alignment.center,
-                    child:_categoryItemWidget(context, index,),
-                  );
-                }),
+              GridView.builder(
+                scrollDirection: Axis.horizontal,
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200,
+                      childAspectRatio: 1.5,
+                      crossAxisSpacing:0,
+                      mainAxisSpacing: 0),
+                  itemCount: 20,
+                  itemBuilder: (BuildContext ctx, index) {
+                    return Container(
+                      alignment: Alignment.center,
+                      child:_categoryItemWidget(context, index,),
+                    );
+                  }),
 
-          ],
+            ],
+          ),
         ));
   }
 
@@ -176,7 +182,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       List<Question> questions =  await getQuestions(category, 10, "easy");
       Navigator.pop(context);
       if(questions.length < 1) {
-        Navigator.of(context).push(MaterialPageRoute(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (_) {
               return ErrorPage(
                 message: "There are not enough questions in the category, with the options you selected.",);
@@ -184,7 +190,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         ));
         return;
       }
-      Navigator.push(context, MaterialPageRoute(
+      Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (_) => QuizPage(questions: questions, category: category,)
       ));
     }on SocketException catch (_) {
