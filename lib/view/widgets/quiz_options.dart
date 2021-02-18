@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:opentrivia/models/category.dart';
-import 'package:opentrivia/models/question.dart';
-import 'package:opentrivia/resources/api_provider.dart';
-import 'package:opentrivia/view/pages/error.dart';
-import 'package:opentrivia/view/pages/quiz_page.dart';
+import 'package:quizsquare/models/category.dart';
+import 'package:quizsquare/models/question.dart';
+import 'package:quizsquare/resources/api_provider.dart';
+import 'package:quizsquare/view/pages/error.dart';
+import 'package:quizsquare/view/pages/quiz_page.dart';
 
 class QuizOptionsDialog extends StatefulWidget {
   final Category category;

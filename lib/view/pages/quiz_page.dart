@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:opentrivia/models/category.dart';
-import 'package:opentrivia/models/colorScheme.dart';
-import 'package:opentrivia/models/question.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:opentrivia/view/pages/quiz_finished.dart';
 import 'package:html_unescape/html_unescape.dart';
-import 'package:opentrivia/view/widgets/toastWidget.dart';
+import 'package:quizsquare/models/category.dart';
+import 'package:quizsquare/models/colorScheme.dart';
+import 'package:quizsquare/models/question.dart';
+import 'package:quizsquare/view/widgets/button.dart';
+import 'package:quizsquare/view/widgets/toastWidget.dart';
+
+import 'quiz_finished.dart';
 
 class QuizPage extends StatefulWidget {
   final List<Question> questions;
@@ -239,7 +239,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                             controller: _controller,
                             width: MediaQuery.of(context).size.width / 10,
                             height: MediaQuery.of(context).size.width / 10,
-                            color: Color(0xffC5CAE9),
+                            ringColor: Color(0xffC5CAE9),
                             backgroundColor: Color(0xFF303F9F),
                             fillColor: Color(0xff37E9BB),
                             strokeWidth: 5.0,
@@ -258,7 +258,6 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                               print('Countdown Ended');
 
                               showToast("Times Up!");
-                              /*exit*/
 
                               Navigator.pushReplacement(context,
                                 MaterialPageRoute(builder: (context) => QuizFinishedPage(
@@ -268,7 +267,6 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
 
                             },
                           ),
-
                         ],
                       ),
                       SizedBox(
@@ -300,18 +298,8 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                       Expanded(
                         child: _currentIndex == (widget.questions.length - 1) ?Container(
                           alignment: Alignment.bottomCenter,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: MediaQuery.of(context).size.width > 800
-                                  ? const EdgeInsets.symmetric(vertical: 20.0,horizontal: 64.0) : null,
-                            ),
-                            child: Text(
-                              //_currentIndex == (widget.questions.length - 1) ?
-                              "Submit"
-                                //  : "Next",// style: MediaQuery.of(context).size.width > 800 ? TextStyle(fontSize: 30.0) : null,
-                            ),
-                            onPressed: _nextSubmit,
-                          ),
+                          child: myButton(buttonName: 'Submit',
+                          function: _nextSubmit,)
                         ):Container(),
                       ),
 
@@ -323,7 +311,6 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
           ),
         );
       },
-      //child: ,
     );
   }
 

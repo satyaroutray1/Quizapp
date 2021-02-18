@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:opentrivia/view/widgets/button.dart';
+import 'package:quizsquare/view/widgets/button.dart';
 
 class ErrorPage extends StatelessWidget {
   final String message;

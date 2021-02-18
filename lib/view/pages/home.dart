@@ -1,20 +1,15 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:loading_animations/loading_animations.dart';
-import 'package:opentrivia/models/category.dart';
-import 'package:opentrivia/view/pages/quiz_page.dart';
-import 'package:opentrivia/view/widgets/quiz_options.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:opentrivia/models/question.dart';
-import 'package:opentrivia/resources/api_provider.dart';
-import 'package:progress_hud/progress_hud.dart';
+import 'package:quizsquare/models/category.dart';
+import 'package:quizsquare/models/question.dart';
+import 'package:quizsquare/resources/api_provider.dart';
 
 import 'error.dart';
+import 'quiz_page.dart';
 
 class HomePage extends StatefulWidget {
   @override

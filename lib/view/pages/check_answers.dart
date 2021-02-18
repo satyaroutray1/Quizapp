@@ -1,11 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:html_unescape/html_unescape.dart';
-import 'package:opentrivia/models/question.dart';
-import 'package:opentrivia/view/pages/quiz_finished.dart';
-import 'package:opentrivia/view/widgets/button.dart';
+import 'package:quizsquare/models/question.dart';
+import 'package:quizsquare/view/widgets/button.dart';
 
 import 'home.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:opentrivia/models/question.dart';
+import 'package:quizsquare/models/question.dart';
 
 class ReportCard extends StatefulWidget {
   final List<Question> questions;

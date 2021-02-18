@@ -1,13 +1,11 @@
-import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import 'package:opentrivia/models/question.dart';
-import 'package:opentrivia/view/pages/check_answers.dart';
-import 'package:opentrivia/view/pages/report_card.dart';
-import 'package:opentrivia/view/widgets/button.dart';
+import 'package:quizsquare/models/question.dart';
+import 'package:quizsquare/view/widgets/button.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
+import 'check_answers.dart';
 import 'home.dart';
+import 'report_card.dart';
 
 class QuizFinishedPage extends StatefulWidget {
   final List<Question> questions;

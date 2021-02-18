@@ -1,4 +1,4 @@
-name: opentrivia
+name: quizsquare
 description: A new Flutter project.
 
 version: 1.0.2+1
@@ -16,10 +16,9 @@ dependencies:
   html_unescape: ^1.0.2
   auto_size_text: ^2.1.0
   lottie: ^0.7.0+1
-  circular_countdown_timer: ^0.0.9
-  fluttertoast: ^7.1.6
-  syncfusion_flutter_gauges: ^18.4.39
-  progress_hud: ^1.1.0
+  circular_countdown_timer: ^0.1.0
+  fluttertoast: ^7.1.8
+  syncfusion_flutter_gauges: ^18.4.43
   double_back_to_close_app: ^2.0.1
   loading_animations: ^2.1.0
 dev_dependencies:

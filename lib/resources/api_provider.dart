@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:quizsquare/models/category.dart';
+import 'package:quizsquare/models/question.dart';
 
-import 'package:opentrivia/models/category.dart';
-import 'package:opentrivia/models/question.dart';
 
 const String baseUrl = "https://opentdb.com/api.php";
 

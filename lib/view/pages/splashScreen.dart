@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import 'package:opentrivia/view/pages/home.dart';
-import 'package:opentrivia/view/widgets/buttonSplashScreen.dart';
+import 'package:quizsquare/view/widgets/buttonSplashScreen.dart';
+
+import 'home.dart';
 
 class Splash extends StatefulWidget {
   @override
