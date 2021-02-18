@@ -24,6 +24,7 @@ final List<Color> tileColors = [
   Colors.red,
 ];
 
+
 final List<Category> categories = [
   Category(9,"General Knowledge",  tileColors[0] //icon: FontAwesomeIcons.globeAsia
   ),
@@ -31,8 +32,9 @@ final List<Category> categories = [
   ),*/
   Category(10,"Books", tileColors[2]//icon: FontAwesomeIcons.bookOpen
   ),
+/*
   Category(15,"Video Games",tileColors[6] //icon: FontAwesomeIcons.gamepad
-  ),
+  ),*/
   Category(11,"Film",tileColors[3] //icon: FontAwesomeIcons.video
   ),
   Category(12,"Music",tileColors[4] //icon: FontAwesomeIcons.music
@@ -49,6 +51,8 @@ final List<Category> categories = [
   ),
   Category(19,"Maths",tileColors[0]//icon: FontAwesomeIcons.sortNumericDown
   ),
+  Category(32,"Cartoon & Animation", tileColors[3]),
+
   Category(20,"Mythology", tileColors[1]),
   Category(21,"Sports",tileColors[2]//icon: FontAwesomeIcons.footballBall
   ),
@@ -57,18 +61,13 @@ final List<Category> categories = [
   Category(23,"History",tileColors[4]// icon: FontAwesomeIcons.monument
   ),
   Category(24,"Politics", tileColors[5]),
-  Category(25,"Art", tileColors[6]//icon: FontAwesomeIcons.paintBrush
-  ),
   Category(26,"Celebrities", tileColors[7] ),
   Category(27,"Animals", tileColors[8]//icon: FontAwesomeIcons.dog
   ),
   Category(28,"Vehicles", tileColors[9]//icon: FontAwesomeIcons.carAlt
   ),
   Category(29,"Comics", tileColors[0]),
-  Category(30,"Gadgets", tileColors[1]//icon: FontAwesomeIcons.mobileAlt
-  ),
   Category(31,"Japanese Anime & Manga", tileColors[2]),
-  Category(32,"Cartoon & Animation", tileColors[3]),
 ];
 
 

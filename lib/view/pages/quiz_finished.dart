@@ -33,6 +33,7 @@ class _QuizFinishedPageState extends State<QuizFinishedPage> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context){
     int correct = 0;

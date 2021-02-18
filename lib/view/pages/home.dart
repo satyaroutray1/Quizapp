@@ -44,7 +44,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     super.initState();
   }
   
-  final List<int> numbers = [1, 2, 3, 5, 8, 13, 21, 34, 55];
 
   @override
   void dispose() {
@@ -59,7 +58,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           backgroundColor: Color(0xFF303F9F),
           title: Text('Quiz App'),
           elevation: 0,
+          automaticallyImplyLeading: false,
         ),
+
         body: Stack(
           children: <Widget>[
             ClipPath(
@@ -82,10 +83,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               scrollDirection: Axis.horizontal,
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 200,
-                    //childAspectRatio: 3 / 2,
-                    crossAxisSpacing: 20,
+                    childAspectRatio: 1.5,
+                    crossAxisSpacing:0,
                     mainAxisSpacing: 0),
-                itemCount: 23,
+                itemCount: 20,
                 itemBuilder: (BuildContext ctx, index) {
                   return Container(
                     alignment: Alignment.center,
