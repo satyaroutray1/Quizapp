@@ -38,21 +38,48 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     _controller.dispose();
     super.dispose();
   }
+
+  Future<bool> onWillPop() async {
+    return showDialog<bool>(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            content: Text(
+                "Are you sure you want to quit the quiz?"),
+            title: Text("Warning!"),
+            actions: <Widget>[
+
+              TextButton(
+                child: Text("Yes"),
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+              ),
+
+              TextButton(
+                child: Text("No"),
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+              ),
+
+            ],
+          );
+        });
+  }
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFF303F9F),
-          title: Text('Quiz App'),
+          title: Text('Quiz Square'),
           elevation: 5,
           automaticallyImplyLeading: false,
         ),
 
-        body: DoubleBackToCloseApp(
-          snackBar: SnackBar(
-            content: Text('Tap back again to leave'),
-          ),
+        body: WillPopScope(
+          onWillPop: onWillPop,
           child: Stack(
             children: <Widget>[
               ClipPath(

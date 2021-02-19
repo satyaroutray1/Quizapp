@@ -1,4 +1,4 @@
-package com.popupbits.opentrivia
+package routray.satya.QuizSquare
 
 import android.os.Bundle
 

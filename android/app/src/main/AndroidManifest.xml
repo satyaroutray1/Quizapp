@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.popupbits.opentrivia">
+    package="routray.satya.QuizSquare">
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -8,7 +8,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="opentrivia"
+        android:label="Quiz Square"
         android:icon="@mipmap/ic_launcher">
         <meta-data
             android:name="flutterEmbedding"

@@ -1,7 +1,7 @@
 name: quizsquare
-description: A new Flutter project.
+description: A Flutter Quiz App.
 
-version: 1.0.2+1
+version: 1.0.0+1
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -15,7 +15,6 @@ dependencies:
   flutter_custom_clippers: ^1.1.2
   html_unescape: ^1.0.2
   auto_size_text: ^2.1.0
-  lottie: ^0.7.0+1
   circular_countdown_timer: ^0.1.0
   fluttertoast: ^7.1.8
   syncfusion_flutter_gauges: ^18.4.43
@@ -30,24 +29,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/lottie/
-    - assets/fonts/
     - assets/images/
-  fonts:
-    - family: Montserrat
-      fonts:
-        - asset: assets/fonts/Montserrat/Montserrat-Regular.ttf
-        - asset: assets/fonts/Montserrat/Montserrat-Italic.ttf
-          style: italic
-        - asset: assets/fonts/Montserrat/Montserrat-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/Montserrat/Montserrat-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Montserrat/Montserrat-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Montserrat/Montserrat-Light.ttf
-          weight: 300
-
 
 module:
   androidX: true # Add this line.
