@@ -1,11 +1,11 @@
 
 import 'package:flutter/material.dart';
 
-class myButton extends StatefulWidget {
+ class myButton extends StatefulWidget {
 
-  String buttonName;
-  Function function;
-  myButton({@required this.buttonName, this.function});
+  final String buttonName;
+  final Function function;
+  myButton({required this.buttonName, required this.function});
 
   @override
   _myButtonState createState() => _myButtonState();
@@ -18,13 +18,13 @@ class _myButtonState extends State<myButton> {
       width: double.infinity,
       child: Container(
         margin: EdgeInsets.all(10),
-        child: RaisedButton(
-          color: Color(0xff36E9BA),
-          onPressed: widget.function,
+        child: ElevatedButton(
+          //color: Color(0xff36E9BA),
+          onPressed: widget.function(),
           child: Container(
             margin: EdgeInsets.only(top: 10, bottom: 10),
             child: Text(widget.buttonName, style: TextStyle(
-                fontSize: Theme.of(context).textTheme.headline6.fontSize,
+                fontSize: Theme.of(context).textTheme.titleLarge?.fontSize,
                 color: Colors.white
             ),),
           ),

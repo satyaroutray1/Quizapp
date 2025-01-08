@@ -4,13 +4,13 @@ import 'package:quizsquare/models/question.dart';
 class ReportCard extends StatefulWidget {
   final List<Question> questions;
   final Map<int, dynamic> answers;
-  ReportCard({this.questions, this.answers});
+  ReportCard({required this.questions, required this.answers});
   @override
   _ReportCardState createState() => _ReportCardState();
 }
 
 class _ReportCardState extends State<ReportCard> {
-  int correctAnswers;
+  late int correctAnswers;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,7 @@ class _ReportCardState extends State<ReportCard> {
 class myCard extends StatefulWidget {
 
   String titleText, trailingText;
-  myCard({this.titleText, this.trailingText});
+  myCard({required this.titleText, required this.trailingText});
 
   @override
   _myCardState createState() => _myCardState();

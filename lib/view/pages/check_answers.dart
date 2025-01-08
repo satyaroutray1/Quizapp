@@ -11,7 +11,7 @@ class CheckAnswersPage extends StatelessWidget {
   final List<Question> questions;
   final Map<int,dynamic> answers;
 
-  const CheckAnswersPage({Key key, @required this.questions, @required this.answers}) : super(key: key);
+  const CheckAnswersPage({required this.questions, required this.answers});
 
   @override
   Widget build(BuildContext context){

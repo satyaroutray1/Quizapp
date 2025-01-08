@@ -17,7 +17,7 @@ class Question {
   final String correctAnswer;
   final List<dynamic> incorrectAnswers;
 
-  Question({this.categoryName, this.type, this.difficulty, this.question, this.correctAnswer, this.incorrectAnswers});
+  Question({required this.categoryName, required this.type, required this.difficulty, required this.question, required this.correctAnswer, required this.incorrectAnswers});
 
   Question.fromMap(Map<String, dynamic> data):
     categoryName = data["category"],

@@ -75,6 +75,6 @@ class Options{
   int num;
   String option;
   Options({
-    this.num,
-    this.option});
+    required this.num,
+    required this.option});
 }

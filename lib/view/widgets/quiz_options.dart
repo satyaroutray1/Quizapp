@@ -9,16 +9,16 @@ import 'package:quizsquare/view/pages/quiz_page.dart';
 class QuizOptionsDialog extends StatefulWidget {
   final Category category;
 
-  const QuizOptionsDialog({Key key, this.category}) : super(key: key);
+  const QuizOptionsDialog({required this.category});
 
   @override
   _QuizOptionsDialogState createState() => _QuizOptionsDialogState();
 }
 
 class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
-  int _noOfQuestions;
-  String _difficulty;
-  bool processing;
+  late int _noOfQuestions;
+  late String _difficulty;
+  late bool processing;
 
   @override
   void initState() { 
@@ -37,7 +37,7 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
               width: double.infinity,
               padding: const EdgeInsets.all(16.0),
               color: Colors.grey.shade200,
-              child: Text(widget.category.name, style: Theme.of(context).textTheme.title.copyWith(),),
+              child: Text(widget.category.name, style: Theme.of(context).textTheme.titleLarge?.copyWith(),),
             ),
             SizedBox(height: 10.0),
             Text("Select Total Number of Questions"),
@@ -95,12 +95,12 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
                 spacing: 16.0,
                 children: <Widget>[
                   SizedBox(width: 0.0),
-                  ActionChip(
-                    label: Text("Any"),
-                    labelStyle: TextStyle(color: Colors.white),
-                    backgroundColor: _difficulty == null ? Colors.indigo : Colors.grey.shade600,
-                    onPressed: () => _selectDifficulty(null),
-                  ),
+                  // ActionChip(
+                  //   label: Text("Any"),
+                  //   labelStyle: TextStyle(color: Colors.white),
+                  //   backgroundColor: _difficulty == null ? Colors.indigo : Colors.grey.shade600,
+                  //   onPressed: () => _selectDifficulty(null),
+                  // ),
                   ActionChip(
                     label: Text("Easy"),
                     labelStyle: TextStyle(color: Colors.white),
@@ -124,7 +124,7 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
               ),
             ),
             SizedBox(height: 20.0),
-            processing ? CircularProgressIndicator() : RaisedButton(
+            processing ? CircularProgressIndicator() : ElevatedButton(
               child: Text("Start Quiz"),
               onPressed: _startQuiz,
             ),
@@ -172,7 +172,7 @@ class _QuizOptionsDialogState extends State<QuizOptionsDialog> {
         }
       ));
     } catch(e){
-      print(e.message);
+      print(e);
       Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (_) {
            return ErrorPage(message: "Unexpected error trying to connect to the API",);

@@ -4,7 +4,7 @@ import 'package:quizsquare/view/widgets/button.dart';
 class ErrorPage extends StatelessWidget {
   final String message;
 
-  const ErrorPage({Key key, this.message = "There was an unknown error." }) : super(key: key);
+  const ErrorPage({ this.message = "There was an unknown error." });
 
 
   @override
@@ -43,7 +43,7 @@ class ErrorPage extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(message,textAlign: TextAlign.center,style: TextStyle(
-                      fontSize: Theme.of(context).textTheme.headline5.fontSize,
+                      fontSize: Theme.of(context).textTheme.headlineSmall?.fontSize,
                       fontWeight: FontWeight.w500,
                       color: Colors.white
                     ),),

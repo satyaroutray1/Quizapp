@@ -15,8 +15,7 @@ class QuizPage extends StatefulWidget {
   final List<Question> questions;
   final Category category;
 
-  const QuizPage({Key key, @required this.questions, this.category})
-      : super(key: key);
+  const QuizPage({required this.questions, required this.category});
 
   @override
   _QuizPageState createState() => _QuizPageState();
@@ -24,10 +23,10 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin{
 
-  Animation animation;
-  AnimationController animationController;
+  late Animation animation;
+  late AnimationController animationController;
 
-  MyColorScheme myColorScheme;
+  late MyColorScheme myColorScheme;
 
   @override
   void initState() {
@@ -101,7 +100,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                       style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: Theme.of(context).textTheme.headline6.fontSize
+                      fontSize: Theme.of(context).textTheme.titleLarge?.fontSize
                     ), overflow: TextOverflow.ellipsis,),
                   ),
                   Icon(Icons.radio_button_off_outlined,color: Colors.white,)
@@ -147,7 +146,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
     }
 
     Future<bool> onWillPop() async {
-      return showDialog<bool>(
+      final result = await showDialog<bool>(
           context: context,
           builder: (_) {
             return AlertDialog(
@@ -173,11 +172,12 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
               ],
             );
           });
+      return result ?? false;
     }
 
     return AnimatedBuilder(
       animation: animationController,
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         return WillPopScope(
           onWillPop: onWillPop,
           child: Scaffold(
@@ -279,7 +279,7 @@ class _QuizPageState extends State<QuizPage> with SingleTickerProviderStateMixin
                                 widget.questions[_currentIndex].question),
                             softWrap: true,
                             style: TextStyle(
-                                fontSize: Theme.of(context).textTheme.headline6.fontSize,
+                                fontSize: Theme.of(context).textTheme.titleLarge?.fontSize,
                               color: myColorScheme.QuestionColor,
                               fontWeight: FontWeight.bold
                             ) ,

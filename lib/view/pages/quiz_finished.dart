@@ -12,7 +12,7 @@ class QuizFinishedPage extends StatefulWidget {
   final Map<int, dynamic> answers;
   
 
-  QuizFinishedPage({Key key, @required this.questions, @required this.answers}): super(key: key);
+  QuizFinishedPage({required this.questions, required this.answers});
 
   @override
   _QuizFinishedPageState createState() => _QuizFinishedPageState();
@@ -20,7 +20,7 @@ class QuizFinishedPage extends StatefulWidget {
 
 class _QuizFinishedPageState extends State<QuizFinishedPage> {
 
-  int correctAnswers;
+  late int correctAnswers;
   bool __visible = true;
 
   @override
@@ -55,7 +55,7 @@ class _QuizFinishedPageState extends State<QuizFinishedPage> {
 
 
     Future<bool> onWillPop() async {
-      return showDialog<bool>(
+      final result = await showDialog<bool>(
           context: context,
           builder: (_) {
             return AlertDialog(
@@ -81,6 +81,7 @@ class _QuizFinishedPageState extends State<QuizFinishedPage> {
               ],
             );
           });
+      return result ?? false;
     }
 
     return Scaffold(

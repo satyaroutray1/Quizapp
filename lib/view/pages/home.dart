@@ -18,8 +18,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
   
-  double _scale;
-  AnimationController _controller;
+  late double _scale;
+  late AnimationController _controller;
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   Future<bool> onWillPop() async {
-    return showDialog<bool>(
+    final result = await showDialog<bool>(
         context: context,
         builder: (_) {
           return AlertDialog(
@@ -66,6 +66,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ],
           );
         });
+    return result ?? false;
   }
   
   @override
@@ -125,8 +126,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
     return Transform.scale(
       scale: _scale,
-      child: RaisedButton(
-        elevation: 10.0,
+      child: ElevatedButton(
+        //elevation: 10.0,
         //highlightElevation: 1.0,
         onPressed: () {
           //_categoryPressed(context, category);
@@ -145,16 +146,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             );
           });
         },
-        shape: CircleBorder(
-            side: BorderSide(
-                color: Colors.white,
-            width: 0.5,
-            style: BorderStyle.solid)
-          //borderRadius: BorderRadius.circular(10.0),
-        ),
-        color: category.color//Colors.transparent
-        ,//Colors.grey.shade800,
-        textColor: Colors.white,
+        // shape: CircleBorder(
+        //     side: BorderSide(
+        //         color: Colors.white,
+        //     width: 0.5,
+        //     style: BorderStyle.solid)
+        //   //borderRadius: BorderRadius.circular(10.0),
+        // ),
+        //color: category.color//Colors.transparent
+        //,//Colors.grey.shade800,
+        //textColor: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -202,7 +203,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           }
       ));
     } catch(e){
-      print(e.message);
+      print(e);
       Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (_) {
             return ErrorPage(message: "Server is busy, Please try after sometime",);

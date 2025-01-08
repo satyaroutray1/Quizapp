@@ -12,13 +12,13 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> with SingleTickerProviderStateMixin{
 
-  double _scale;
-  AnimationController _controller;
-  Timer _timer;
+  late double _scale;
+  late AnimationController _controller;
+  late Timer _timer;
 
 
   @override
-  void initState() async{
+  void initState() {
     _controller = AnimationController(vsync: this, duration: Duration(
         milliseconds: 200,), lowerBound: 0.0, upperBound: 0.1,)
       ..addListener(() {
