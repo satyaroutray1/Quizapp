@@ -20,6 +20,7 @@ dependencies:
   syncfusion_flutter_gauges: ^28.2.12
   double_back_to_close_app: ^2.1.0
   loading_animations: ^2.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
