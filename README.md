@@ -2,9 +2,11 @@
 
 A fun and interactive quiz app built using Flutter and the [Open Trivia DB API](https://opentdb.com/api.php). Supports multiple choice questions, score tracking, countdown timers, and visual performance feedback.
 
-![screenshot](assets/screenshots/ss1.jpg)
-![screenshot](assets/screenshots/ss2.jpg)
-![screenshot](assets/screenshots/ss3.jpg)
+<p align="center">
+  <img src="assets/screenshots/ss1.jpg" width="250"/>
+  <img src="assets/screenshots/ss2.jpg" width="250"/>
+  <img src="assets/screenshots/ss3.jpg" width="250"/>
+</p>
 
 [![Watch the demo](assets/screenshots/ss3.png)](https://www.youtube.com/shorts/OcGFUnZ9t_U)
 
