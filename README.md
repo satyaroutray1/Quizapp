@@ -42,6 +42,6 @@ A fun and interactive quiz app built using Flutter and the [Open Trivia DB API](
 🧑‍💻 Author
 
 Satya Routray
-🌐 Portfolio[satya-routray.web.app]
+🌐 [Portfolio][satya-routray.web.app]
 
 
