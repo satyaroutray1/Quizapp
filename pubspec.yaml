@@ -1,7 +1,7 @@
 name: quizsquare
 description: A Flutter Quiz App.
 
-version: 1.0.0+2
+version: 1.0.0
 
 environment:
   sdk: '>=3.3.4 <4.0.0'
@@ -20,6 +20,7 @@ dependencies:
   syncfusion_flutter_gauges: ^33.2.6
   double_back_to_close_app: ^2.1.0
   loading_animations: ^2.2.0
+  change_app_package_name: ^1.5.0
 
 dev_dependencies:
   flutter_test:
