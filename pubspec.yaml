@@ -1,7 +1,7 @@
 name: quizsquare
 description: A Flutter Quiz App.
 
-version: 1.0.0
+version: 1.0.0+3
 
 environment:
   sdk: '>=3.3.4 <4.0.0'
